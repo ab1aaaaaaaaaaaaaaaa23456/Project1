@@ -1,0 +1,38 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+rom google.colab import files
+uploaded = files.upload()
+data1 = pd.read_csv('country_wise_latest.csv')
+data1
+data1.shape
+data1.head()
+data1.info()
+data1.isnull().sum()
+data1.fillna(0, inplace = True)
+data1.drop_duplicates(inplace = True)
+data1.head(10).plot(kind = 'bar', figsize = (10, 5))
+plt.title("Top 10 COVID-19 Affected Countries")
+plt.ylabel("Top Confirmed Cases")
+plt.show()
+top10 = data1.sort_values(by='Confirmed', ascending=False).head(10)
+
+plt.figure(figsize=(10,5))
+plt.bar(top10['Country/Region'], top10['Confirmed'])
+plt.xticks(rotation=45)
+plt.title('Top 10 Countries by Confirmed COVID-19 Cases')
+plt.xlabel('Country')
+plt.ylabel('Confirmed Cases')
+plt.show()
+plt.figure(figsize=(10,5))
+plt.bar(top10['Country/Region'], top10['Deaths / 100 Cases'])
+plt.xticks(rotation=45)
+plt.title('Death Rate per 100 Cases (Top 10 Countries)')
+plt.ylabel('Death Rate')
+plt.show()
+
+region_cases = data1.groupby('WHO Region')['Confirmed'].sum()
+
+region_cases.plot(kind='bar', figsize=(10,5), title='Confirmed Cases by WHO Region')
+plt.ylabel('Confirmed Cases')
+plt.show()
+
